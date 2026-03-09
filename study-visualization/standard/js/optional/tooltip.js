@@ -12,7 +12,7 @@ window.StudienplanTooltip = {
       // Direkte Link-Indikatoren nicht abfangen – sie öffnen das PDF/Link direkt
       if (
         e.target.closest(
-          "a.exam-btn, a.zsf-btn, a.video-indicator, a.script-indicator, a.link-indicator, a.kurslink-indicator",
+          "a.skript-btn, a.skript2-btn, a.folien-btn, a.video-indicator, a.script-indicator, a.link-indicator, a.kurslink-indicator",
         )
       ) {
         return;
@@ -126,7 +126,7 @@ window.StudienplanTooltip = {
       container.appendChild(indicator);
     }
 
-    // === Bottom rectangular buttons for Prüfung & Zusammenfassung ===
+    // === Bottom rectangular buttons for Skript & Folien ===
     let btnContainer = moduleElement.querySelector(".module-btns");
     if (!btnContainer) {
       btnContainer = document.createElement("div");
@@ -135,44 +135,37 @@ window.StudienplanTooltip = {
     }
     btnContainer.innerHTML = "";
 
-    if (details.pruefungen) {
-      let examUrl = null;
-      let zsfUrl = null;
+    if (details.skript) {
+      const btn = document.createElement("a");
+      btn.className = "skript-btn";
+      btn.href = details.skript;
+      btn.target = "_blank";
+      btn.rel = "noopener noreferrer";
+      btn.title = "Skript";
+      btn.textContent = "📄 Skript";
+      btnContainer.appendChild(btn);
+    }
 
-      if (Array.isArray(details.pruefungen)) {
-        const examEntries = details.pruefungen.filter(
-          (p) => !p.label.toLowerCase().includes("zusammenfassung"),
-        );
-        const zsfEntries = details.pruefungen.filter((p) =>
-          p.label.toLowerCase().includes("zusammenfassung"),
-        );
-        if (examEntries.length > 0) examUrl = examEntries[0].url;
-        if (zsfEntries.length > 0) zsfUrl = zsfEntries[0].url;
-      } else {
-        examUrl = details.pruefungen;
-      }
+    if (details.skript2) {
+      const btn = document.createElement("a");
+      btn.className = "skript2-btn";
+      btn.href = details.skript2;
+      btn.target = "_blank";
+      btn.rel = "noopener noreferrer";
+      btn.title = "Skript 2";
+      btn.textContent = "📄 Skript 2";
+      btnContainer.appendChild(btn);
+    }
 
-      if (examUrl) {
-        const btn = document.createElement("a");
-        btn.className = "exam-btn";
-        btn.href = examUrl;
-        btn.target = "_blank";
-        btn.rel = "noopener noreferrer";
-        btn.title = "Alte Prüfung";
-        btn.textContent = "📝 Prüfung";
-        btnContainer.appendChild(btn);
-      }
-
-      if (zsfUrl) {
-        const btn = document.createElement("a");
-        btn.className = "zsf-btn";
-        btn.href = zsfUrl;
-        btn.target = "_blank";
-        btn.rel = "noopener noreferrer";
-        btn.title = "Zusammenfassung / Spick";
-        btn.textContent = "📋 Spick";
-        btnContainer.appendChild(btn);
-      }
+    if (details.folien) {
+      const btn = document.createElement("a");
+      btn.className = "folien-btn";
+      btn.href = details.folien;
+      btn.target = "_blank";
+      btn.rel = "noopener noreferrer";
+      btn.title = "Übungsfolien";
+      btn.textContent = "📋 Folien";
+      btnContainer.appendChild(btn);
     }
   },
 
@@ -189,29 +182,24 @@ window.StudienplanTooltip = {
       window.StudiengangModuleDetails[name]
     ) {
       const details = window.StudiengangModuleDetails[name];
-      const hilfsmittel = details.hilfsmittel;
 
       detailsHTML = `<h3>${name}</h3>`;
       if (ects) {
         detailsHTML += `<div style="font-size:0.9em;color:#666;margin-bottom:8px;">${ects}</div>`;
       }
 
-      if (hilfsmittel) {
-        const items = Array.isArray(hilfsmittel) ? hilfsmittel : [hilfsmittel];
-        detailsHTML += `<h4 style="margin-bottom:6px;">&#x1F4CB; Erlaubte Hilfsmittel</h4>`;
-        detailsHTML += `<ul style="margin:0;padding-left:18px;font-size:0.9em;line-height:1.7;">`;
-        items.forEach((item) => {
-          detailsHTML += `<li>${item}</li>`;
-        });
-        detailsHTML += `</ul>`;
-      } else {
-        detailsHTML += `<p style="color:#999;font-size:0.9em;">Keine Hilfsmittel-Info verfügbar</p>`;
+      if (details.kurzbeschreibung) {
+        detailsHTML += `<p style="font-size:0.9em;margin-bottom:8px;">${details.kurzbeschreibung}</p>`;
+      }
+
+      if (details.inhalt) {
+        detailsHTML += `<div style="font-size:0.85em;white-space:pre-wrap;line-height:1.6;">${details.inhalt}</div>`;
       }
     } else {
       detailsHTML = `
         <h3>${name}</h3>
         ${ects ? `<div style="font-size:0.9em;color:#666;">${ects}</div>` : ""}
-        <p style="color:#999;font-size:0.9em;">Keine Hilfsmittel-Info verfügbar</p>
+        <p style="color:#999;font-size:0.9em;">Keine Details verfügbar</p>
       `;
     }
 

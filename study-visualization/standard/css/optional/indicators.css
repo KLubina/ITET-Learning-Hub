@@ -12,7 +12,7 @@
   z-index: var(--z-indicator);
 }
 
-/* ==== BOTTOM BUTTON BAR (Prüfung + Spick) ==== */
+/* ==== BOTTOM BUTTON BAR (Skript + Folien) ==== */
 .module-btns {
   display: flex;
   gap: 4px;
@@ -21,8 +21,9 @@
   box-sizing: border-box;
 }
 
-.exam-btn,
-.zsf-btn {
+.skript-btn,
+.skript2-btn,
+.folien-btn {
   flex: 1;
   min-height: 20px;
   background: rgba(255, 255, 255, 0.22);
@@ -43,8 +44,9 @@
   padding: 2px 3px;
 }
 
-.exam-btn:hover,
-.zsf-btn:hover {
+.skript-btn:hover,
+.skript2-btn:hover,
+.folien-btn:hover {
   background: rgba(255, 255, 255, 0.38);
 }
 
@@ -69,8 +71,6 @@
 }
 
 /* Clickable link indicators */
-a.exam-indicator,
-a.zsf-indicator,
 a.video-indicator,
 a.script-indicator,
 a.link-indicator,
@@ -83,8 +83,6 @@ a.kurslink-indicator {
 /* Hover Effects */
 .video-indicator:hover,
 .link-indicator:hover,
-.exam-indicator:hover,
-.zsf-indicator:hover,
 .script-indicator:hover,
 .kurslink-indicator:hover {
   opacity: 1;
@@ -98,8 +96,6 @@ a.kurslink-indicator {
 
 .modul.small-module .video-indicator,
 .modul.small-module .link-indicator,
-.modul.small-module .exam-indicator,
-.modul.small-module .zsf-indicator,
 .modul.small-module .script-indicator,
 .modul.small-module .kurslink-indicator {
   width: var(--indicator-size-small);
